@@ -3,6 +3,10 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\Admin\HomeController as AdminHomeController;
+use App\Http\Controllers\Guest\HomeController as GuestHomeController;
+use App\Http\Controllers\Admin\WordController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,13 +18,26 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+//Rotta home guest
+Route::get('/', GuestHomeController::class)->name('guest.home');
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+
+
+
+
+Route::prefix('/admin')->name('admin.')->middleware('auth')->group(function(){
+    //Rotta admin home
+    Route::get('/', AdminHomeController::class)->name('home');
+
+    //Rotte admin post
+    Route::get('/words', [WordController::class,'index'])->name('words.index');
+    Route::get('/words/create', [WordController::class,'create'])->name('words.create');
+    Route::get('/words/{word}', [WordController::class,'show'])->name('words.show');
+    Route::post('/words', [WordController::class,'store'])->name('words.store');
+    Route::get('/words/{word}/edit', [WordController::class,'edit'])->name('words.edit');
+    Route::put('/words/{word}', [WordController::class,'update'])->name('words.update');
+    Route::delete('/words/{word}', [WordController::class,'destroy'])->name('words.destroy');
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
