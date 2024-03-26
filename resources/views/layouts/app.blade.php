@@ -22,13 +22,22 @@
 <body>
     <div id="app">
 
-    @include('includes.layouts.navbar')
-        
+        {{-- Navbar --}}
+        @include('includes.layouts.navbar')
+            
+        {{-- Alert --}}
+        @include('includes.alert')
 
+        {{-- Main content --}}
         <main class="">
             @yield('content')
         </main>
+
     </div>
+
+
+    {{-- Scripts --}}
+    @yield('scripts')
 </body>
 
 </html>

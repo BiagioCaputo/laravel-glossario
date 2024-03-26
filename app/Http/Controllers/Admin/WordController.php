@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Word;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class WordController extends Controller
 {
@@ -21,7 +22,9 @@ class WordController extends Controller
      */
     public function create()
     {
-        //
+        $word = new Word();
+
+        return view('admin.words.create', compact('word'));
     }
 
     /**
@@ -45,7 +48,7 @@ class WordController extends Controller
      */
     public function edit(Word $word)
     {
-        //
+        return view('admin.words.edit', compact('word'));
     }
 
     /**
