@@ -37,12 +37,10 @@ class WordController extends Controller
             [
                 'title' => 'required|string|unique:words',
                 'definition' => 'required|string',
-
             ],
             [
                 'title.required' => 'Nessuna parola inserita',
                 'definition.required' => 'La nuova parola deve contenere una descrizione',
-
             ]
         );
 
@@ -81,7 +79,24 @@ class WordController extends Controller
      */
     public function update(Request $request, Word $word)
     {
-        //
+        $request->validate(
+            [
+                'title' => ['required', 'string', Rule::unique('words')->ignore($word->id)],
+                'definition' => 'required|string',
+            ],
+            [
+                'title.required' => 'Nessuna parola inserita',
+                'definition.required' => 'La nuova parola deve contenere una descrizione',
+            ]
+        );
+
+        $data = $request->all();
+
+        $data['slug'] = Str::slug($data['title']);
+
+        $project->update($data);
+
+        return to_route('admin.words.show', $word->id)->with('type', 'success')->with('message', 'Parola modificata con successo');
     }
 
     /**
