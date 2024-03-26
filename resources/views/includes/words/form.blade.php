@@ -9,7 +9,7 @@
         {{-- Titolo --}}
         <div class="col-6">
             <div class="mb-4">
-                <label for="title" class="form-label">Etichetta</label>
+                <label for="title" class="form-label">Parola</label>
                 <input type="text" class="form-control @error('title') is-invalid @elseif(old('title', $word->title)) is-valid  @enderror" id="title" name="title" placeholder="Etichetta..." value="{{old('title', $word->title)}}">
                 @error('title')
                 <div class="invalid-feedback">
@@ -28,11 +28,11 @@
         {{-- Definizione --}}
         <div class="col-12">
             <div class="mb-5">
-                <label for="description" class="form-label">Descrizione</label>
-                <textarea class="form-control @error('description') is-invalid @elseif(old('description', $word->description)) is-valid @enderror" id="description" name="description" rows="8">
-                    {{old('description', $word->description)}}
+                <label for="definition" class="form-label">Descrizione</label>
+                <textarea class="form-control @error('definition') is-invalid @elseif(old('definition', $word->definition)) is-valid @enderror" id="definition" name="definition" rows="8">
+                    {{old('definition', $word->definition)}}
                 </textarea>
-                @error('description')
+                @error('definition')
                 <div class="invalid-feedback">
                     {{$message}}
                 </div>

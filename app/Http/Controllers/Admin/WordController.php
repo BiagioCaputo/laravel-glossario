@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Word;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Str;
 
 class WordController extends Controller
 {
@@ -32,7 +33,31 @@ class WordController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate(
+            [
+                'title' => 'required|string|unique:words',
+                'definition' => 'required|string',
+
+            ],
+            [
+                'title.required' => 'Nessuna parola inserita',
+                'definition.required' => 'La nuova parola deve contenere una descrizione',
+
+            ]
+        );
+
+        $data = $request->all();
+
+        $word = new Word();
+
+        $word->fill($data);
+
+        $word->slug = Str::slug($word->title);
+
+
+        $word->save();
+
+        return to_route('admin.words.index', $word->id)->with('message', "Nuova parola creata: $word->title")->with('word', "success");
     }
 
     /**
