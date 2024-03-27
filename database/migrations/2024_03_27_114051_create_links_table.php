@@ -12,7 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('links', function (Blueprint $table) {
+
             $table->id();
+
+            $table->string('label', 50)->unique();
+            $table->string('url')->unique();
+
             $table->timestamps();
         });
     }
@@ -23,5 +28,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('links');
+
+        
     }
 };
