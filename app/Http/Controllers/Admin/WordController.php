@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Word;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
+use Illuminate\Support\Str;
 
 class WordController extends Controller
 {
@@ -13,7 +15,8 @@ class WordController extends Controller
      */
     public function index()
     {
-        //
+        $words = Word::all();
+        return view('admin.words.index', compact('words'));
     }
 
     /**
@@ -21,7 +24,9 @@ class WordController extends Controller
      */
     public function create()
     {
-        //
+        $word = new Word();
+
+        return view('admin.words.create', compact('word'));
     }
 
     /**
@@ -29,7 +34,29 @@ class WordController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate(
+            [
+                'title' => 'required|string|unique:words',
+                'definition' => 'required|string',
+            ],
+            [
+                'title.required' => 'Nessuna parola inserita',
+                'definition.required' => 'La nuova parola deve contenere una descrizione',
+            ]
+        );
+
+        $data = $request->all();
+
+        $word = new Word();
+
+        $word->fill($data);
+
+        $word->slug = Str::slug($word->title);
+
+
+        $word->save();
+
+        return to_route('admin.words.index', $word->id)->with('message', "Nuova parola creata: $word->title")->with('word', "success");
     }
 
     /**
@@ -37,7 +64,7 @@ class WordController extends Controller
      */
     public function show(Word $word)
     {
-        //
+        return view('admin.words.show', compact('word'));
     }
 
     /**
@@ -45,7 +72,7 @@ class WordController extends Controller
      */
     public function edit(Word $word)
     {
-        //
+        return view('admin.words.edit', compact('word'));
     }
 
     /**
@@ -53,7 +80,24 @@ class WordController extends Controller
      */
     public function update(Request $request, Word $word)
     {
-        //
+        $request->validate(
+            [
+                'title' => ['required', 'string', Rule::unique('words')->ignore($word->id)],
+                'definition' => 'required|string',
+            ],
+            [
+                'title.required' => 'Nessuna parola inserita',
+                'definition.required' => 'La nuova parola deve contenere una descrizione',
+            ]
+        );
+
+        $data = $request->all();
+
+        $data['slug'] = Str::slug($data['title']);
+
+        $project->update($data);
+
+        return to_route('admin.words.show', $word->id)->with('type', 'success')->with('message', 'Parola modificata con successo');
     }
 
     /**
@@ -61,6 +105,7 @@ class WordController extends Controller
      */
     public function destroy(Word $word)
     {
-        //
+        $word->delete();
+        return to_route('admin.words.index')->with('type', 'success')->with('message', 'Parola eliminata con successo');
     }
 }
