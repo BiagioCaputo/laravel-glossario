@@ -8,11 +8,17 @@ use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
-    public function __invoke()
+    public function index()
     {
 
         $words = Word::orderByDesc('created_at')->get();
 
         return view('guest.home', compact('words'));
+    }
+
+    public function show(Word $word)
+    {
+
+        return view('guest.words.show', compact('word'));
     }
 }

@@ -19,24 +19,25 @@ use App\Http\Controllers\Admin\WordController;
 */
 
 //Rotta home guest
-Route::get('/', GuestHomeController::class)->name('guest.home');
+Route::get('/', [GuestHomeController::class, 'index'])->name('guest.home');
+Route::get('/words/{word}', [GuestHomeController::class, 'show'])->name('guest.words.show');
 
 
 
 
 
-Route::prefix('/admin')->name('admin.')->middleware('auth')->group(function(){
+Route::prefix('/admin')->name('admin.')->middleware('auth')->group(function () {
     //Rotta admin home
     Route::get('/', AdminHomeController::class)->name('home');
 
     //Rotte admin post
-    Route::get('/words', [WordController::class,'index'])->name('words.index');
-    Route::get('/words/create', [WordController::class,'create'])->name('words.create');
-    Route::get('/words/{word}', [WordController::class,'show'])->name('words.show');
-    Route::post('/words', [WordController::class,'store'])->name('words.store');
-    Route::get('/words/{word}/edit', [WordController::class,'edit'])->name('words.edit');
-    Route::put('/words/{word}', [WordController::class,'update'])->name('words.update');
-    Route::delete('/words/{word}', [WordController::class,'destroy'])->name('words.destroy');
+    Route::get('/words', [WordController::class, 'index'])->name('words.index');
+    Route::get('/words/create', [WordController::class, 'create'])->name('words.create');
+    Route::get('/words/{word}', [WordController::class, 'show'])->name('words.show');
+    Route::post('/words', [WordController::class, 'store'])->name('words.store');
+    Route::get('/words/{word}/edit', [WordController::class, 'edit'])->name('words.edit');
+    Route::put('/words/{word}', [WordController::class, 'update'])->name('words.update');
+    Route::delete('/words/{word}', [WordController::class, 'destroy'])->name('words.destroy');
 });
 
 Route::middleware('auth')->group(function () {
@@ -45,4 +46,4 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
