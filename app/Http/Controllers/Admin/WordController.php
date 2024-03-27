@@ -104,6 +104,7 @@ class WordController extends Controller
      */
     public function destroy(Word $word)
     {
-        //
+        $word->delete();
+        return to_route('admin.words.index')->with('type', 'success')->with('message', 'Parola eliminata con successo');
     }
 }
