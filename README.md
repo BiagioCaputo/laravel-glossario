@@ -35,4 +35,6 @@ Successivamente, creiamo un nuovo model Tag, con relativa migration. Creiamo qui
 # Collaboratori
 - ## [Biagio Caputo](https://github.com/BiagioCaputo)
 - ## [Diego Brotza](https://github.com/dieghino26)
+- ## [Matteo Cantafio](https://github.com/MatteoCantafio25)
+- ## [Daniele Ercoli](https://github.com/Polvere243)
 - ## [Santiago Galvan Colorado](https://github.com/SantiGalvan)
