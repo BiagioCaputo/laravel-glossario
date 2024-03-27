@@ -18,7 +18,7 @@
                             {{$word->definition}}
                         </div>
                         <div class="card-footer text-center">
-                            <a href="" class="btn btn-primary"><i class="fa-solid fa-magnifying-glass me-2"></i>Vedi</a>
+                            <a href="{{route('guest.words.show', $word->id)}}" class="btn btn-primary"><i class="fa-solid fa-magnifying-glass me-2"></i>Vedi</a>
                         </div>
                     </div>
                 </div>
