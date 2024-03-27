@@ -13,6 +13,11 @@
         
         <div class="clearfix">
             <p>{{$word->definition}}</p>
+            <ul class="p-0">
+                @foreach ($word->links as $link)
+                    <li class="list-unstyled mb-2"><a href="{{ $link->url }}">{{ $link->label }}</a></li>
+                @endforeach
+            </ul>
             <div>
                 <strong>Created at:</strong> {{$word->created_at}}
                 <strong>Updated at:</strong> {{$word->updated_at}}

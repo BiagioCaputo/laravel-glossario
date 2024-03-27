@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Word;
+use App\Models\Link;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Str;
@@ -15,6 +16,7 @@ class WordController extends Controller
      */
     public function index()
     {
+        $links = Link::all();
         $words = Word::all();
         return view('admin.words.index', compact('words'));
     }

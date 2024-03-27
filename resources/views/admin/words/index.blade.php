@@ -11,6 +11,7 @@
             <th scope="col">Titolo</th>
             <th scope="col">Slug</th>
             <th scope="col">Definizione</th>
+            <th scope="col">Links</th>
             <th scope="col">
                 <div class="d-flex gap-2 justify-content-end">
                     <a href="{{ route('admin.words.create')}}" class="btn btn-success btn-sm"><i class="fas fa-plus me-1"></i>Nuova</a>
@@ -25,6 +26,13 @@
                 <td>{{ $word->title }}</td>
                 <td>{{ $word->slug }}</td>
                 <td>{{ $word->definition }}</td>
+                <td>
+                    <ul class="p-0">
+                        @foreach ($word->links as $link)
+                            <li class="mb-2 list-unstyled"><a href="{{ $link->url }}">{{ $link->label }}</a></li>
+                        @endforeach
+                    </ul>
+                </td>
                 <td>
                     <div class="d-flex gap-2 justify-content-end">
                         <a href="{{ route('admin.words.show', $word)}}" class="btn btn-sm btn-primary">
