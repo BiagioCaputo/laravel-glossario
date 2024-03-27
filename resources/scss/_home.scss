@@ -1,0 +1,19 @@
+.card {
+    height: 400px;
+}
+
+.card-body {
+    overflow: auto;
+}
+
+.card-body::-webkit-scrollbar {
+    width: 10px;
+}
+
+.card-body::-webkit-scrollbar-track {
+    background: white;
+}
+
+.card-body::-webkit-scrollbar-thumb {
+    background: rgba(42, 41, 41, 0.383);
+}
