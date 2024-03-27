@@ -95,7 +95,7 @@ class WordController extends Controller
 
         $data['slug'] = Str::slug($data['title']);
 
-        $project->update($data);
+        $word->update($data);
 
         return to_route('admin.words.show', $word->id)->with('type', 'success')->with('message', 'Parola modificata con successo');
     }
@@ -106,6 +106,6 @@ class WordController extends Controller
     public function destroy(Word $word)
     {
         $word->delete();
-        return to_route('admin.words.index')->with('type', 'success')->with('message', 'Parola eliminata con successo');
+        return to_route('admin.words.index')->with('type', 'danger')->with('message', 'Parola eliminata con successo');
     }
 }
