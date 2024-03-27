@@ -25,7 +25,7 @@
     @include('includes.layouts.navbar')
         
 
-        <main class="container">
+        <main class="">
             @yield('content')
         </main>
     </div>
