@@ -38,7 +38,9 @@
         </tbody>
     </table>    
 
+    @if ($links->hasPages())
+    {{ $links->links()}}
+    @endif
 </div>
-
 
 @endsection
