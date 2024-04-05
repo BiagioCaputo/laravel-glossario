@@ -21,6 +21,8 @@ class DatabaseSeeder extends Seeder
              'name' => 'Team5',
              'email' => 'team5@ciao.it',
         ]);
+        
+        $this->call(TagSeeder::class);
 
     }
 }

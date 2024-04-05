@@ -11,9 +11,15 @@ class Word extends Model
 
     protected $fillable = ['title', 'definition'];
 
-    //Ogni Progetto può avere un solo type
+    //Ogni Parola può avere più type
     public function links()
     {
         return $this->hasMany(Link::class);
+    }
+
+    //Ogni Parola può avere più tag
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class);
     }
 }
