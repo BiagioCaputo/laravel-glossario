@@ -18,9 +18,19 @@
                     <li class="list-unstyled mb-2"><a href="{{ $link->url }}">{{ $link->label }}</a></li>
                 @endforeach
             </ul>
-            <div>
-                <strong>Created at:</strong> {{$word->created_at}}
-                <strong>Updated at:</strong> {{$word->updated_at}}
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <strong>Created at:</strong> {{$word->created_at}}
+                    <strong>Updated at:</strong> {{$word->updated_at}}
+                </div>
+                <div class="d-flex gap-2">
+                    @forelse($word->tags as $tag)
+                    <span class="badge" style="background-color: {{$tag->color}}">{{$tag->label}}</span>
+                    @empty
+                       -
+                    @endforelse 
+                </div>
+                
             </div>
         </div>
         
