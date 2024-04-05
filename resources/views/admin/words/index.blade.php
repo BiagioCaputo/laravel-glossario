@@ -26,7 +26,7 @@
                 <th scope="row">{{ $word->id }}</th>
                 <td>{{ $word->title }}</td>
                 <td>{{ $word->slug }}</td>
-                <td>{{ $word->definition }}</td>
+                <td>{{ $word->abstract() }}</td>
                 <td>
                     <ul class="p-0">
                         @foreach ($word->links as $link)
