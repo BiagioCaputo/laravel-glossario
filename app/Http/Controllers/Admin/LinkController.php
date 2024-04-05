@@ -62,6 +62,6 @@ class LinkController extends Controller
     {
         $link->delete();
 
-        return to_route('admin.links.index')->with('message', 'Link eliminato con successo');
+        return to_route('admin.links.index')->with('type', 'danger')->with('message', 'Link eliminato con successo');
     }
 }
