@@ -23,6 +23,7 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link @if(Request::is('admin/links*'))) active @endif" href="{{route('admin.links.index') }}">Links</a>
+                        <a class="nav-link @if(Request::is('admin/tags*'))) active @endif" href="{{route('admin.tags.index') }}">Tags</a>
                     </li>
                 @endauth
             </ul>

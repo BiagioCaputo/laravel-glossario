@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\HomeController as AdminHomeController;
 use App\Http\Controllers\Admin\LinkController;
 use App\Http\Controllers\Guest\HomeController as GuestHomeController;
 use App\Http\Controllers\Admin\WordController;
+use App\Http\Controllers\Admin\TagController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,9 +23,6 @@ use App\Http\Controllers\Admin\WordController;
 //Rotta home guest
 Route::get('/', [GuestHomeController::class, 'index'])->name('guest.home');
 Route::get('/words/{word}', [GuestHomeController::class, 'show'])->name('guest.words.show');
-
-
-
 
 
 Route::prefix('/admin')->name('admin.')->middleware('auth')->group(function () {
@@ -52,6 +50,29 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+Route::prefix('/admin')->name('admin.')->middleware('auth')->group(function () {
+    //Rotta admin home
+    Route::get('/', AdminHomeController::class)->name('home');
+
+    //Rotte admin post
+    Route::get('/words', [WordController::class, 'index'])->name('words.index');
+    Route::get('/words/create', [WordController::class, 'create'])->name('words.create');
+    Route::get('/words/{word}', [WordController::class, 'show'])->name('words.show');
+    Route::post('/words', [WordController::class, 'store'])->name('words.store');
+    Route::get('/words/{word}/edit', [WordController::class, 'edit'])->name('words.edit');
+    Route::put('/words/{word}', [WordController::class, 'update'])->name('words.update');
+    Route::delete('/words/{word}', [WordController::class, 'destroy'])->name('words.destroy');
+});
+
+Route::prefix('/admin')->name('admin.')->middleware('auth')->group(function () {
+
+    //Rotte tags
+    Route::get('/tags', [TagController::class, 'index'])->name('tags.index');
+    Route::get('/tags/{tag}/edit', [TagController::class, 'edit'])->name('tags.edit');
+    Route::put('/tags/{tag}', [TagController::class, 'update'])->name('tags.update');
+    Route::delete('/tags/{tag}', [TagController::class, 'destroy'])->name('tags.destroy');
 });
 
 require __DIR__ . '/auth.php';
