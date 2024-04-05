@@ -2,6 +2,8 @@
 
 @section('content')
 <div class="container py-5">
+
+    <h1 class="text-center mb-3">Links</h1>
         
     </table>
     <table class="table table-dark table-striped">
@@ -10,11 +12,7 @@
             <th scope="col">#</th>
             <th scope="col">Label</th>
             <th scope="col">Url</th>
-            <th scope="col">
-                <div class="d-flex gap-2 justify-content-end">
-                    <a href="{{ route('admin.links.create')}}" class="btn btn-success btn-sm"><i class="fas fa-plus me-1"></i>Nuova</a>
-                </div>
-            </th>
+            <th scope="col"></th>
           </tr>
         </thead>
         <tbody>
