@@ -38,6 +38,14 @@ Route::prefix('/admin')->name('admin.')->middleware('auth')->group(function () {
     Route::get('/words/{word}/edit', [WordController::class, 'edit'])->name('words.edit');
     Route::put('/words/{word}', [WordController::class, 'update'])->name('words.update');
     Route::delete('/words/{word}', [WordController::class, 'destroy'])->name('words.destroy');
+
+    // Rotta admin link
+    Route::get('/links', [WordController::class, 'index'])->name('links.index');
+    Route::get('/links/create', [WordController::class, 'create'])->name('links.create');
+    Route::post('/links', [WordController::class, 'store'])->name('links.store');
+    Route::get('/links/{word}/edit', [WordController::class, 'edit'])->name('links.edit');
+    Route::put('/links/{word}', [WordController::class, 'update'])->name('links.update');
+    Route::delete('/links/{word}', [WordController::class, 'destroy'])->name('links.destroy');
 });
 
 Route::middleware('auth')->group(function () {
