@@ -37,7 +37,7 @@ class WordController extends Controller
     public function store(Request $request)
     {
         $request->validate(
-            [
+            [ 
                 'title' => 'required|string|unique:words',
                 'definition' => 'required|string',
             ],
