@@ -12,6 +12,7 @@
             <th scope="col">Slug</th>
             <th scope="col">Definizione</th>
             <th scope="col">Links</th>
+            <th scope="col">Tags</th>
             <th scope="col">
                 <div class="d-flex gap-2 justify-content-end">
                     <a href="{{ route('admin.words.create')}}" class="btn btn-success btn-sm"><i class="fas fa-plus me-1"></i>Nuova</a>
@@ -34,6 +35,13 @@
                     </ul>
                 </td>
                 <td>
+                    @forelse($word->tags as $tag)
+                    <span class="badge" style="background-color: {{$tag->color}}">{{$tag->label}}</span>
+                    @empty
+                       -
+                    @endforelse 
+                </td>
+                <td>
                     <div class="d-flex gap-2 justify-content-end">
                         <a href="{{ route('admin.words.show', $word)}}" class="btn btn-sm btn-primary">
                             <i class="fas fa-eye"></i>
@@ -51,7 +59,10 @@
             <td colspan="5">Non sono presenti parole</td>
             @endforelse
         </tbody>
-    </table>    
+    </table>
+    @if ($words->hasPages())
+        {{ $words->links()}}
+    @endif    
 
 </div>
 

@@ -2,7 +2,7 @@
     <div class="container">
         <a class="navbar-brand d-flex align-items-center" href="{{ url('/') }}">
             <div class="logo_laravel">
-                {{ config('app.name', 'Glossario') }}
+                {{ config('app.name', 'Glossario_db') }}
             </div>
             
         </a>
