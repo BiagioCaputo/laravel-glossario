@@ -50,7 +50,7 @@
                         <form action="{{route('admin.words.destroy', $word)}}" method="POST" class="delete-form">
                             @csrf
                             @method('DELETE')
-                            <button word='submit' class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
+                            <button type='submit' class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
                         </form>
                     </div>                
                 </td>

@@ -40,6 +40,8 @@ class WordController extends Controller
             [
                 'title' => 'required|string|unique:words',
                 'definition' => 'required|string',
+                'links.*.label' => 'nullable|string',
+                'links.*.url' => 'nullable|string',
             ],
             [
                 'title.required' => 'Nessuna parola inserita',
