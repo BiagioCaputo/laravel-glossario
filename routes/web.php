@@ -42,7 +42,6 @@ Route::prefix('/admin')->name('admin.')->middleware('auth')->group(function () {
 
     // Rotta admin link
     Route::get('/links', [LinkController::class, 'index'])->name('links.index');
-    Route::get('/links/create', [LinkController::class, 'create'])->name('links.create');
     Route::post('/links', [LinkController::class, 'store'])->name('links.store');
     Route::get('/links/{word}/edit', [LinkController::class, 'edit'])->name('links.edit');
     Route::put('/links/{word}', [LinkController::class, 'update'])->name('links.update');
