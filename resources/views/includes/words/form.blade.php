@@ -46,45 +46,48 @@
         </p>
           <div class="row">
             <div class="col-12">
+                {{-- Primo gruppo input --}}
               <div class="collapse multi-collapse" id="link-1">
                 <div class="row">
                     <div class="col-6">
-                        <label for="label" class="form-label">Label</label>
-                        <input type="text" class="form-control" id="label" placeholder="Inserisci un nome del link...">
+                        <label for="label-1" class="form-label">Label</label>
+                        <input type="text" class="form-control" id="label-1" name="label-1" placeholder="Inserisci un nome del link..." value="old('label-1', $link->0->label)">
                     </div>
                     <div class="col-6">
-                        <label for="url" class="form-label">Url</label>
-                        <input type="url" class="form-control" id="url" placeholder="Inserisci un url del link...">
+                        <label for="url-1" class="form-label">Url</label>
+                        <input type="url" class="form-control" id="url-1" name="url-1" placeholder="Inserisci un url del link..." value="old('url-1', $link->1->url)">
                     </div>
                 </div>
                 <button class="btn btn-primary my-4" type="button" data-bs-toggle="collapse" data-bs-target="#link-2" aria-expanded="false" aria-controls="link-2">More <i class="fas fa-link"></i></button>
               </div>
             </div>
             <div class="col-12">
+            {{-- Secondo gruppo input --}}
                 <div class="collapse multi-collapse" id="link-2">
                     <div class="row">
                         <div class="col-6">
-                            <label for="label" class="form-label">Label</label>
-                            <input type="text" class="form-control" id="label" placeholder="Inserisci un nome del link...">
+                            <label for="label-2" class="form-label">Label</label>
+                            <input type="text" class="form-control" id="label-2" name="label-2" placeholder="Inserisci un nome del link..." value="old('label-2', $link->1->label)">
                         </div>
                         <div class="col-6">
-                            <label for="url" class="form-label">Url</label>
-                            <input type="url" class="form-control" id="url" placeholder="Inserisci un url del link...">
+                            <label for="url-2" class="form-label">Url</label>
+                            <input type="url" class="form-control" id="url-2"  name="url-2"  placeholder="Inserisci un url del link..." value="old('url-2', $link->1->url)">
                         </div>
                     </div>
                     <button class="btn btn-primary my-4" type="button" data-bs-toggle="collapse" data-bs-target="#link-3" aria-expanded="false" aria-controls="link-3">More <i class="fas fa-link"></i></button>
                 </div>
             </div>
             <div class="col-12">
+            {{-- Terzo gruppo input --}}
               <div class="collapse multi-collapse" id="link-3">
                 <div class="row">
                     <div class="col-6">
-                        <label for="label" class="form-label">Label</label>
-                        <input type="text" class="form-control" id="label" placeholder="Inserisci un nome del link...">
+                        <label for="label-3" class="form-label">Label</label>
+                        <input type="text" class="form-control" id="label" name="label-3" placeholder="Inserisci un nome del link..." value="old('label-3', $link->2->label)">
                     </div>
                     <div class="col-6">
-                        <label for="url" class="form-label">Url</label>
-                        <input type="url" class="form-control" id="url" placeholder="Inserisci un url del link...">
+                        <label for="url-3" class="form-label">Url</label>
+                        <input type="url" class="form-control" id="url-3" name="url_3" placeholder="Inserisci un url del link..." value="old('url-3', $link->2->url)">
                     </div>
                 </div>
               </div>
