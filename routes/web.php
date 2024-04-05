@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Admin\HomeController as AdminHomeController;
+use App\Http\Controllers\Admin\LinkController;
 use App\Http\Controllers\Guest\HomeController as GuestHomeController;
 use App\Http\Controllers\Admin\WordController;
 
@@ -38,6 +39,13 @@ Route::prefix('/admin')->name('admin.')->middleware('auth')->group(function () {
     Route::get('/words/{word}/edit', [WordController::class, 'edit'])->name('words.edit');
     Route::put('/words/{word}', [WordController::class, 'update'])->name('words.update');
     Route::delete('/words/{word}', [WordController::class, 'destroy'])->name('words.destroy');
+
+    // Rotta admin link
+    Route::get('/links', [LinkController::class, 'index'])->name('links.index');
+    Route::post('/links', [LinkController::class, 'store'])->name('links.store');
+    Route::get('/links/{link}/edit', [LinkController::class, 'edit'])->name('links.edit');
+    Route::put('/links/{link}', [LinkController::class, 'update'])->name('links.update');
+    Route::delete('/links/{link}', [LinkController::class, 'destroy'])->name('links.destroy');
 });
 
 Route::middleware('auth')->group(function () {

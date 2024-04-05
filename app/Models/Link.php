@@ -9,8 +9,10 @@ class Link extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['label', 'durl'];
+
     //Per ogni word posso avere più link
-    public function word() 
+    public function word()
     {
         return $this->belongsTo(Word::class);
     }
