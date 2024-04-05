@@ -22,4 +22,9 @@ class Word extends Model
     {
         return $this->belongsToMany(Tag::class);
     }
+
+    public function abstract()
+    {
+        return substr($this->definition, 1, 200);
+    }
 }
