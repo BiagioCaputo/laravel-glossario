@@ -14,6 +14,22 @@
                         <div class="col-4">
                             <div class="mt-2"><strong>Creato il:</strong> {{$word->created_at}}</div>
                             <div><strong>Ultima modifica:</strong> {{$word->updated_at}}</div>
+                            <div class="my-4">
+                                <strong>Links:</strong> 
+                                @forelse($word->links as $index => $link)
+                                <a href="{{$link->url}}">{{$link->label}}</a>
+                                @empty
+                                   -
+                                @endforelse
+                            </div>
+                            <div class="my-4">
+                                <strong>Tags:</strong> 
+                                 @forelse($word->tags as $tag)
+                                <span class="badge" style="background-color: {{$tag->color}}">{{$tag->label}}</span>
+                                @empty
+                                   -
+                                @endforelse
+                            </div>
                         </div>
                         <div class="col-8">
                             <p>{{$word->definition}}</p>
