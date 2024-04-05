@@ -17,3 +17,11 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+
+Route::get('/words', [WordController::class, 'index']);
+Route::get('/words/{word}', [WordController::class, 'show']);
+Route::post('/words', [WordController::class, 'store']);
+Route::get('/words', [WordController::class, 'index']);
+Route::delete('/words/{word}', [WordController::class, 'destroy']);
+Route::put('/words/{word}', [WordController::class, 'update']);
