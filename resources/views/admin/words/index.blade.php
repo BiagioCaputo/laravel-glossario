@@ -2,6 +2,8 @@
 
 @section('content')
 <div class="container py-5">
+    
+    <h1 class="text-center mb-3">Words</h1>
         
     </table>
     <table class="table table-dark table-striped">
