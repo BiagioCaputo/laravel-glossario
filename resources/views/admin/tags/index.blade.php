@@ -52,6 +52,9 @@
         </tbody>
     </table>    
 
+    @if ($tags->hasPages())
+    {{ $tags->links()}}
+    @endif
 </div>
 
 
