@@ -29,9 +29,9 @@ class LinkController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Link $link)
     {
-        //
+        return view('admin.links.edit', compact('link'));
     }
 
     /**
