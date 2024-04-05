@@ -17,7 +17,7 @@ class WordController extends Controller
     public function index()
     {
         $links = Link::all();
-        $words = Word::all();
+        $words = Word::orderByDesc('updated_at')->orderByDesc('created_at')->paginate(5);
         return view('admin.words.index', compact('words'));
     }
 

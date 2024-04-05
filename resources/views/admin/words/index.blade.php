@@ -59,7 +59,10 @@
             <td colspan="5">Non sono presenti parole</td>
             @endforelse
         </tbody>
-    </table>    
+    </table>
+    @if ($words->hasPages())
+        {{ $words->links()}}
+    @endif    
 
 </div>
 
