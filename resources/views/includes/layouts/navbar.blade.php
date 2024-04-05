@@ -18,11 +18,18 @@
                     <a class="nav-link @if(Route::is('guest.home')) active @endif" href="{{url('/') }}">{{ __('Home') }}</a>
                 </li>
                 @auth 
+                    <!-- Words -->
                     <li class="nav-item">
                         <a class="nav-link @if(Request::is('admin/words*'))) active @endif" href="{{route('admin.words.index') }}">Words</a>
                     </li>
+
+                    <!-- Links -->
                     <li class="nav-item">
                         <a class="nav-link @if(Request::is('admin/links*'))) active @endif" href="{{route('admin.links.index') }}">Links</a>
+                    </li>
+                    
+                    <!-- Tags -->
+                    <li class="nav-item">
                         <a class="nav-link @if(Request::is('admin/tags*'))) active @endif" href="{{route('admin.tags.index') }}">Tags</a>
                     </li>
                 @endauth
