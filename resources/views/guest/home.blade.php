@@ -28,6 +28,9 @@
                 </div>
             @endforelse
         </div>
+        @if ($words->hasPages())
+        {{ $words->links()}}
+    @endif  
     </div>
 </section>
 

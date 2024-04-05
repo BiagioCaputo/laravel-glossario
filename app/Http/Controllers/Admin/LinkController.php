@@ -14,7 +14,7 @@ class LinkController extends Controller
      */
     public function index()
     {
-        $links = Link::all();
+        $links = Link::orderByDesc('updated_at')->orderByDesc('created_at')->paginate(10);
 
         return view('admin.links.index', compact('links'));
     }
@@ -52,7 +52,7 @@ class LinkController extends Controller
 
         $link->update($data);
 
-        return to_route('admin.links.index');
+        return to_route('admin.links.index')->with('type', 'success')->with('message', 'Link modificato con successo');
     }
 
     /**
@@ -62,6 +62,6 @@ class LinkController extends Controller
     {
         $link->delete();
 
-        return to_route('admin.links.index');
+        return to_route('admin.links.index')->with('type', 'danger')->with('message', 'Link eliminato con successo');
     }
 }
