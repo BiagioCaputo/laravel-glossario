@@ -13,10 +13,10 @@ class WordController extends Controller
      */
     public function index()
     {
-        $words = Word::select('id', 'title', 'type_id', 'description', 'image')->with('type', 'technologies')->get();
+        $words = Word::select('id', 'title', 'slug', 'definition')->with('tags', 'links')->get();
 
         
-        return response()->json($word);
+        return response()->json($words);
     }
 
     /**
