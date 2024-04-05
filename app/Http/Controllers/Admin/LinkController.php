@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Link;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class LinkController extends Controller
 {
@@ -37,9 +38,21 @@ class LinkController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Link $link)
     {
-        //
+        $request->validate([
+            'label' => ['required', 'string', Rule::unique('links')->ignore($link->id)],
+            'url' => 'required|string'
+        ], [
+            'label.required' => 'Nessun label inserito',
+            'url.required' => 'Nessun url inserito'
+        ]);
+
+        $data = $request->all();
+
+        $link->update($data);
+
+        return to_route('admin.links.index');
     }
 
     /**
