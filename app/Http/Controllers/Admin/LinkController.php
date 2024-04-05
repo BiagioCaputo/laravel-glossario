@@ -52,7 +52,7 @@ class LinkController extends Controller
 
         $link->update($data);
 
-        return to_route('admin.links.index');
+        return to_route('admin.links.index')->with('type', 'success')->with('message', 'Link modificato con successo');
     }
 
     /**
@@ -62,6 +62,6 @@ class LinkController extends Controller
     {
         $link->delete();
 
-        return to_route('admin.links.index');
+        return to_route('admin.links.index')->with('message', 'Link eliminato con successo');
     }
 }
