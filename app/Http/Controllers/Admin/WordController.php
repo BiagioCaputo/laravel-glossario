@@ -32,7 +32,9 @@ class WordController extends Controller
 
         $tags = Tag::select('label', 'id')->get();
 
-        return view('admin.words.create', compact('word', 'tags'));
+        $links = Link::all(); 
+
+        return view('admin.words.create', compact('word', 'tags', 'links'));
     }
 
     /**
@@ -45,11 +47,15 @@ class WordController extends Controller
                 'title' => 'required|string|unique:words',
                 'definition' => 'required|string',
                 'tags' => 'nullable|exists:tags,id',
+                'links.*.label' => 'nullable|unique:links|string',
+                'links.*.url' => 'nullable|unique:links|url',
             ],
             [
                 'title.required' => 'Nessuna parola inserita',
                 'definition.required' => 'La nuova parola deve contenere una descrizione',
                 'tags.exists' => 'Tag scelti non esistenti o non validi',
+                'links.*.label.unique' => 'Uno dei link esiste già',
+                'links.*.url.unique' => 'Uno degli url esiste già',
             ]
         );
 
@@ -63,6 +69,15 @@ class WordController extends Controller
 
 
         $word->save();
+
+        // Salvataggio dei link associati alla parola, nel caso non trovasse nulla in input, invierà un array vuoto invece di generare un errore
+        foreach ($request->input('links', []) as $link) { 
+            $newLink = new Link();
+            $newLink->label = $link['label'];
+            $newLink->url = $link['url'];
+            $newLink->word_id = $word->id;
+            $newLink->save();
+        }
 
         if(Arr::exists($data, 'tags')) 
         {
@@ -90,7 +105,10 @@ class WordController extends Controller
         //Ricavo le tecnologie utilizzate dal progetto prima di modificarlo cosi da utilizzarle nell'old nel form
         $previous_tags = $word->tags->pluck('id')->toArray();
 
-        return view('admin.words.edit', compact('word', 'tags', 'previous_tags'));
+        //carico i link associati alla parola
+        $links = $word->links;
+
+        return view('admin.words.edit', compact('word', 'tags', 'previous_tags', 'links'));
     }
 
     /**
@@ -103,11 +121,15 @@ class WordController extends Controller
                 'title' => ['required', 'string', Rule::unique('words')->ignore($word->id)],
                 'definition' => 'required|string',
                 'tags' => 'nullable|exists:tags,id',
+                'links.*.label' => 'nullable|unique:links|string',
+                'links.*.url' => 'nullable|unique:links|url',
             ],
             [
                 'title.required' => 'Nessuna parola inserita',
                 'definition.required' => 'La nuova parola deve contenere una descrizione',
                 'tags.exists' => 'Tag scelti non esistenti o non validi',
+                'links.*.label.unique' => 'Uno dei link esiste già',
+                'links.*.url.unique' => 'Uno degli url esiste già',
             ]
         );
 
@@ -116,6 +138,24 @@ class WordController extends Controller
         $data['slug'] = Str::slug($data['title']);
 
         $word->update($data);
+
+        //ciclo sui link ricevuti
+        foreach ($request->input('links', []) as $link) {
+            //se il link esisteva già lo modifico
+            if (isset($link['id'])) {
+                $existingLink = Link::findOrFail($link['id']);
+                $existingLink->label = $link['label'];
+                $existingLink->url = $link['url'];
+                $existingLink->save();
+            //altrimenti ne creo uno nuovo
+            } else {
+                $newLink = new Link();
+                $newLink->label = $link['label'];
+                $newLink->url = $link['url'];
+                $newLink->word_id = $word->id;
+                $newLink->save();
+            }
+        }
 
         //se ho inviato uno o dei valori sincronizzo 
         if (Arr::exists($data, 'tags')) $word->tags()->sync($data['tags']);
