@@ -5,9 +5,11 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Word;
 use App\Models\Link;
+use App\Models\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Str;
+use Illuminate\Support\Arr;
 
 class WordController extends Controller
 {
@@ -28,7 +30,9 @@ class WordController extends Controller
     {
         $word = new Word();
 
-        return view('admin.words.create', compact('word'));
+        $tags = Tag::select('label', 'id')->get();
+
+        return view('admin.words.create', compact('word', 'tags'));
     }
 
     /**
@@ -37,15 +41,15 @@ class WordController extends Controller
     public function store(Request $request)
     {
         $request->validate(
-            [ 
+            [
                 'title' => 'required|string|unique:words',
                 'definition' => 'required|string',
-                'links.*.label' => 'nullable|string',
-                'links.*.url' => 'nullable|string',
+                'tags' => 'nullable|exists:tags,id',
             ],
             [
                 'title.required' => 'Nessuna parola inserita',
                 'definition.required' => 'La nuova parola deve contenere una descrizione',
+                'tags.exists' => 'Tag scelti non esistenti o non validi',
             ]
         );
 
@@ -59,6 +63,11 @@ class WordController extends Controller
 
 
         $word->save();
+
+        if(Arr::exists($data, 'tags')) 
+        {
+            $word->tags()->attach($data['tags']);
+        }
 
         return to_route('admin.words.index', $word->id)->with('message', "Nuova parola creata: $word->title")->with('word', "success");
     }
@@ -76,7 +85,12 @@ class WordController extends Controller
      */
     public function edit(Word $word)
     {
-        return view('admin.words.edit', compact('word'));
+        $tags = Tag::select('label', 'id')->get();
+
+        //Ricavo le tecnologie utilizzate dal progetto prima di modificarlo cosi da utilizzarle nell'old nel form
+        $previous_tags = $word->tags->pluck('id')->toArray();
+
+        return view('admin.words.edit', compact('word', 'tags', 'previous_tags'));
     }
 
     /**
@@ -88,10 +102,12 @@ class WordController extends Controller
             [
                 'title' => ['required', 'string', Rule::unique('words')->ignore($word->id)],
                 'definition' => 'required|string',
+                'tags' => 'nullable|exists:tags,id',
             ],
             [
                 'title.required' => 'Nessuna parola inserita',
                 'definition.required' => 'La nuova parola deve contenere una descrizione',
+                'tags.exists' => 'Tag scelti non esistenti o non validi',
             ]
         );
 
@@ -100,6 +116,12 @@ class WordController extends Controller
         $data['slug'] = Str::slug($data['title']);
 
         $word->update($data);
+
+        //se ho inviato uno o dei valori sincronizzo 
+        if (Arr::exists($data, 'tags')) $word->tags()->sync($data['tags']);
+
+        //Se non ho inviato valori ma la word ne aveva in precedenza, vuol dire che devo eliminare valore perchè li ho tolti tutti
+        elseif (!Arr::exists($data, 'tags') && $word->has('tags')) $word->tags()->detach();
 
         return to_route('admin.words.show', $word->id)->with('type', 'success')->with('message', 'Parola modificata con successo');
     }
