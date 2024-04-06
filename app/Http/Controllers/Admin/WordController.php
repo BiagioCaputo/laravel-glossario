@@ -32,15 +32,13 @@ class WordController extends Controller
 
         $tags = Tag::select('label', 'id')->get();
 
-        $links = Link::all(); 
-
-        return view('admin.words.create', compact('word', 'tags', 'links'));
+        return view('admin.words.create', compact('word', 'tags'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request, Word $word)
     {
         $request->validate(
             [
@@ -60,24 +58,24 @@ class WordController extends Controller
         );
 
         $data = $request->all();
-
         $word = new Word();
-
         $word->fill($data);
-
         $word->slug = Str::slug($word->title);
-
-
         $word->save();
 
         // Salvataggio dei link associati alla parola, nel caso non trovasse nulla in input, invierà un array vuoto invece di generare un errore
-        foreach ($request->input('links', []) as $link) { 
-            $newLink = new Link();
-            $newLink->label = $link['label'];
-            $newLink->url = $link['url'];
-            $newLink->word_id = $word->id;
-            $newLink->save();
+        $linksData = $request->input('links', []);
+
+        foreach ($linksData as $link) {
+            if (!empty($link['label']) && !empty($link['url'])) {
+                $newLink = new Link();
+                $newLink->word_id = $word->id;
+                $newLink->label = $link['label'];
+                $newLink->url = $link['url'];
+                $newLink->save();
+            }
         }
+        
 
         if(Arr::exists($data, 'tags')) 
         {
@@ -121,8 +119,8 @@ class WordController extends Controller
                 'title' => ['required', 'string', Rule::unique('words')->ignore($word->id)],
                 'definition' => 'required|string',
                 'tags' => 'nullable|exists:tags,id',
-                'links.*.label' => 'nullable|unique:links|string',
-                'links.*.url' => 'nullable|unique:links|url',
+                'links.*.label' => 'nullable|string',
+                'links.*.url' => 'nullable|url',
             ],
             [
                 'title.required' => 'Nessuna parola inserita',
@@ -139,21 +137,17 @@ class WordController extends Controller
 
         $word->update($data);
 
-        //ciclo sui link ricevuti
-        foreach ($request->input('links', []) as $link) {
-            //se il link esisteva già lo modifico
-            if (isset($link['id'])) {
-                $existingLink = Link::findOrFail($link['id']);
-                $existingLink->label = $link['label'];
-                $existingLink->url = $link['url'];
-                $existingLink->save();
-            //altrimenti ne creo uno nuovo
-            } else {
-                $newLink = new Link();
-                $newLink->label = $link['label'];
-                $newLink->url = $link['url'];
-                $newLink->word_id = $word->id;
-                $newLink->save();
+        // Elimina tutti i link associati alla parola
+        $word->links()->delete();
+
+        //Salvo tutti i dati dal form nei link
+        foreach ($request->input('links', []) as $linkData) {
+            if (!empty($linkData['label']) && !empty($linkData['url'])) {
+                $link = new Link();
+                $link->word_id = $word->id;
+                $link->label = $linkData['label'];
+                $link->url = $linkData['url'];
+                $link->save();
             }
         }
 

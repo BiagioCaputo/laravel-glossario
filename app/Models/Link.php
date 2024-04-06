@@ -9,7 +9,7 @@ class Link extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['label', 'durl'];
+    protected $fillable = ['label', 'url'];
 
     //Per ogni word posso avere più link
     public function word()
