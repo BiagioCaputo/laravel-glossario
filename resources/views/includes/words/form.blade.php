@@ -1,8 +1,8 @@
 @if($word->exists)
-<form action="{{route('admin.words.update', $word->id)}}" enctype="multipart/form-data" method="POST">
+<form action="{{route('admin.words.update', $word->id)}}" method="POST">
     @method('PUT')
 @else
-<form action="{{route('admin.words.store')}}" enctype="multipart/form-data" method="POST">
+<form action="{{route('admin.words.store')}}" method="POST">
 @endif
 @csrf
 <div class="row align-items-center justify-content-start">
@@ -61,12 +61,12 @@
             </div>
         </div>
     </div>
-    {{-- @dd($links[0]->label) --}}
+    
     {{-- Links --}}
-    <p class="d-flex gap-1">
+    <div class="d-flex gap-1">
         <a class="btn btn-primary" data-bs-toggle="collapse" href="#link-1" role="button" aria-expanded="false" aria-controls="link-1"><i class="fas fa-plus"></i> Link</a>
-        <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target=".multi-collapse" aria-expanded="false" aria-controls="link-1 link-2 link-3">Mostra tutti</button>
-    </p>
+        <a class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target=".multi-collapse" aria-expanded="false" aria-controls="link-1 link-2 link-3">Mostra tutti</a>
+    </div>
     <div class="row">
 
         {{--Link n.1--}}
@@ -75,14 +75,24 @@
                 <div class="row">
                     <div class="col-6">
                         <label for="label-1" class="form-label">Label</label>
-                        <input type="text" class="form-control" id="label-1" name="links[0][label]" placeholder="Inserisci un nome del link..." value="{{ old('links.0.label', isset($links[0]) ? $links[0]->label : '') }}">
+                        <input type="text" class="form-control @error('links.0.label') is-invalid @elseif (old('links.0.label', '')) is-valid @enderror" id="label-1" name="links[0][label]" placeholder="Inserisci un nome del link..." value="{{ old('links.0.label', isset($links[0]) ? $links[0]->label : '') }}">
+                        @error('links.0.label')
+                        <div class="invalid-feedback">
+                        {{ $message }}
+                        </div>
+                        @enderror
                     </div>
                     <div class="col-6">
                         <label for="url-1" class="form-label">Url</label>
-                        <input type="url" class="form-control" id="url-1" name="links[0][url]" placeholder="Inserisci un url del link..."  value="{{ old('links.0.url', isset($links[0]) ? $links[0]->url : '') }}">
+                        <input type="url" class="form-control @error('links.0.url') is-invalid @elseif (old('links.0.url', '')) is-valid @enderror" id="url-1" name="links[0][url]" placeholder="Inserisci un url del link..."  value="{{ old('links.0.url', isset($links[0]) ? $links[0]->url : '') }}">
+                        @error('links.0.url')
+                        <div class="invalid-feedback">
+                        {{ $message }}
+                        </div>
+                        @enderror
                     </div>
                 </div>
-                <button class="btn btn-primary my-4" type="button" data-bs-toggle="collapse" data-bs-target="#link-2" aria-expanded="false" aria-controls="link-2">More <i class="fas fa-link"></i></button>
+                <a class="btn btn-primary my-4" type="button" data-bs-toggle="collapse" data-bs-target="#link-2" aria-expanded="false" aria-controls="link-2">More <i class="fas fa-link"></i></a>
               </div>
             </div>
 
@@ -92,14 +102,24 @@
                     <div class="row">
                         <div class="col-6">
                             <label for="label-2" class="form-label">Label</label>
-                            <input type="text" class="form-control" id="label-2" name="links[1][label]" placeholder="Inserisci un nome del link..."  value="{{ old('links.1.label', isset($links[1]) ? $links[1]->label : '') }}">
+                            <input type="text" class="form-control  @error('links.1.label') is-invalid @elseif (old('links.1.label', '')) is-valid @enderror"  id="label-2" name="links[1][label]" placeholder="Inserisci un nome del link..."  value="{{ old('links.1.label', isset($links[1]) ? $links[1]->label : '') }}">
+                            @error('links.1.label')
+                            <div class="invalid-feedback">
+                            {{ $message }}
+                            </div>
+                            @enderror
                         </div>
                         <div class="col-6">
                             <label for="url-2" class="form-label">Url</label>
-                            <input type="url" class="form-control" id="url-2"  name="links[1][url]"  placeholder="Inserisci un url del link..."  value="{{ old('links.1.url', isset($links[1]) ? $links[1]->url : '') }}">
+                            <input type="url" class="form-control @error('links.1.url') is-invalid @elseif (old('links.1.url', '')) is-valid @enderror"  id="url-2"  name="links[1][url]"  placeholder="Inserisci un url del link..."  value="{{ old('links.1.url', isset($links[1]) ? $links[1]->url : '') }}">
+                            @error('links.1.url')
+                            <div class="invalid-feedback">
+                            {{ $message }}
+                            </div>
+                        @enderror
                         </div>
                     </div>
-                    <button class="btn btn-primary my-4" type="button" data-bs-toggle="collapse" data-bs-target="#link-3" aria-expanded="false" aria-controls="link-3">More <i class="fas fa-link"></i></button>
+                    <a class="btn btn-primary my-4" type="button" data-bs-toggle="collapse" data-bs-target="#link-3" aria-expanded="false" aria-controls="link-3">More <i class="fas fa-link"></i></a>
                 </div>
             </div>
 
@@ -109,11 +129,21 @@
                 <div class="row">
                     <div class="col-6">
                         <label for="label-3" class="form-label">Label</label>
-                        <input type="text" class="form-control" id="label" name="links[2][label]" placeholder="Inserisci un nome del link..." value="{{ old('links.2.label', isset($links[2]) ? $links[2]->label : '') }}">
+                        <input type="text" class="form-control  @error('links.2.label') is-invalid @elseif (old('links.2.label', '')) is-valid @enderror"  id="label-3" name="links[2][label]" placeholder="Inserisci un nome del link..." value="{{ old('links.2.label', isset($links[2]) ? $links[2]->label : '') }}">
+                        @error('links.2.label')
+                        <div class="invalid-feedback">
+                        {{ $message }}
+                        </div>
+                        @enderror
                     </div>
                     <div class="col-6">
                         <label for="url-3" class="form-label">Url</label>
-                        <input type="url" class="form-control" id="url-3" name="links[2][url]" placeholder="Inserisci un url del link..."  value="{{ old('links.2.url', isset($links[2]) ? $links[2]->url : '') }}">
+                        <input type="url" class="form-control @error('links.2.url') is-invalid @elseif (old('links.2.url', '')) is-valid @enderror" id="url-3" name="links[2][url]" placeholder="Inserisci un url del link..."  value="{{ old('links.2.url', isset($links[2]) ? $links[2]->url : '') }}">
+                        @error('links.2.url')
+                        <div class="invalid-feedback">
+                        {{ $message }}
+                        </div>
+                        @enderror
                     </div>
                 </div>
               </div>
