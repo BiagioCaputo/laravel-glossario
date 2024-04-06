@@ -33,7 +33,7 @@ class WordController extends Controller
     public function show(string $word)
     {
 
-        $word = Word::select('id', 'title', 'type_id', 'description', 'image')->with('type', 'technologies')->find($project);
+        $word = Word::select('id', 'title', 'slug', 'definition')->with('tags', 'links')->find($word);
 
         if(!$word) return response(null, 404);
 
