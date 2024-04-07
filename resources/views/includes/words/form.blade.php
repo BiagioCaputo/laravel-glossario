@@ -78,8 +78,8 @@
             <!-- Mostra i link solo se showLinks è true -->
             <div x-show="showLinks">
                 @foreach ($links as $index => $link)
-                    <div class="col-12 row my-2">
-                        <div class="col-6">
+                    <div class="col-12 row my-2 align-items-center">
+                        <div class="col-5">
                             <div class="form-group">
                                 <label for="links[{{ $index }}][label]" class="form-label">Label</label>
                                 <input type="text" name="links[{{ $index }}][label]" value="{{ old("links.$index.label", $link['label']) }}" class="form-control @error("links.$index.label") is-invalid @enderror">
@@ -96,6 +96,10 @@
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
+                        </div>
+                        <!-- Pulsante eliminazione -->
+                        <div class="col-1 pt-4">
+                            <a href='#' class="btn btn-danger" onclick="deleteLink(event, {{ $index }})"><i class="fas fa-trash"></i></a>
                         </div>
                     </div>
                 @endforeach
@@ -135,4 +139,6 @@
         </div>
     </div>
 </form>
+
+
 
