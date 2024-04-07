@@ -3,7 +3,7 @@
 @section('content')
     <div class="container py-5">
 
-        <h1 class="text-center mb-3">Words</h1>
+        <h1 class="text-center mb-3">Words Deleted</h1>
 
         </table>
         <table class="table table-dark table-striped">
@@ -17,13 +17,8 @@
                     <th scope="col">Tags</th>
                     <th scope="col">
                         <div class="d-flex gap-2 justify-content-end">
-                            <a href="{{ route('admin.words.trash') }}"
-                                class="btn btn-danger btn-sm d-flex align-items-center"><i
-                                    class="fas fa-trash me-1"></i>Cestino</a>
-
-                            <a href="{{ route('admin.words.create') }}"
-                                class="btn btn-success btn-sm d-flex align-items-center"><i
-                                    class="fas fa-plus me-1"></i>Nuova</a>
+                            <a href="{{ route('admin.words.index') }}" class="btn btn-secondary btn-sm"><i
+                                    class="fas fa-arrow-left me-1"></i>Words</a>
                         </div>
                     </th>
                 </tr>
@@ -58,8 +53,13 @@
                                 </a>
                                 <a href="{{ route('admin.words.edit', $word) }}" class="btn btn-warning btn-sm"><i
                                         class="fas fa-pencil"></i></a>
-                                <form action="{{ route('admin.words.destroy', $word) }}" method="POST"
-                                    class="delete-form">
+                                <form action="{{ route('admin.words.restore', $word->id) }}" method="POST"
+                                    class="restore-form">
+                                    @csrf
+                                    @method('PATCH')
+                                    <button class="btn btn-sm btn-success"><i class="fas fa-arrows-rotate"></i></button>
+                                </form>
+                                <form action="{{ route('admin.words.drop', $word) }}" method="POST" class="delete-form">
                                     @csrf
                                     @method('DELETE')
                                     <button type='submit' class="btn btn-danger btn-sm"><i
@@ -69,14 +69,10 @@
                         </td>
                     </tr>
                 @empty
-                    <td colspan="7">Non sono presenti parole</td>
+                    <td colspan="7">Cestino vuoto</td>
                 @endforelse
             </tbody>
         </table>
-        @if ($words->hasPages())
-            {{ $words->links() }}
-        @endif
-
     </div>
 
 
