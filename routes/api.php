@@ -21,7 +21,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 
 Route::get('/words', [WordController::class, 'index']);
-Route::get('/words/{word}', [WordController::class, 'show']);
+Route::get('/words/{slug}', [WordController::class, 'show']);
 Route::post('/words', [WordController::class, 'store']);
 Route::delete('/words/{word}', [WordController::class, 'destroy']);
 Route::put('/words/{word}', [WordController::class, 'update']);

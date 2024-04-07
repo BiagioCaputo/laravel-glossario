@@ -29,14 +29,21 @@ Route::prefix('/admin')->name('admin.')->middleware('auth')->group(function () {
     //Rotta admin home
     Route::get('/', AdminHomeController::class)->name('home');
 
+    //trash
+    Route::get('/words/trash', [WordController::class, 'trash'])->name('words.trash');
+    Route::patch('/words/{word}/restore', [WordController::class, 'restore'])->name('words.restore');
+    Route::delete('/words/{word}/drop', [WordController::class, 'drop'])->name('words.drop');
+
+
     //Rotte admin post
     Route::get('/words', [WordController::class, 'index'])->name('words.index');
     Route::get('/words/create', [WordController::class, 'create'])->name('words.create');
-    Route::get('/words/{word}', [WordController::class, 'show'])->name('words.show');
+    Route::get('/words/{word}', [WordController::class, 'show'])->name('words.show')->withTrashed();
     Route::post('/words', [WordController::class, 'store'])->name('words.store');
-    Route::get('/words/{word}/edit', [WordController::class, 'edit'])->name('words.edit');
-    Route::put('/words/{word}', [WordController::class, 'update'])->name('words.update');
+    Route::get('/words/{word}/edit', [WordController::class, 'edit'])->name('words.edit')->withTrashed();
+    Route::put('/words/{word}', [WordController::class, 'update'])->name('words.update')->withTrashed();
     Route::delete('/words/{word}', [WordController::class, 'destroy'])->name('words.destroy');
+
 
     // Rotta admin link
     Route::get('/links', [LinkController::class, 'index'])->name('links.index');
@@ -44,35 +51,19 @@ Route::prefix('/admin')->name('admin.')->middleware('auth')->group(function () {
     Route::get('/links/{link}/edit', [LinkController::class, 'edit'])->name('links.edit');
     Route::put('/links/{link}', [LinkController::class, 'update'])->name('links.update');
     Route::delete('/links/{link}', [LinkController::class, 'destroy'])->name('links.destroy');
+
+
+    //Rotte admin tags
+    Route::get('/tags', [TagController::class, 'index'])->name('tags.index');
+    Route::get('/tags/{tag}/edit', [TagController::class, 'edit'])->name('tags.edit');
+    Route::put('/tags/{tag}', [TagController::class, 'update'])->name('tags.update');
+    Route::delete('/tags/{tag}', [TagController::class, 'destroy'])->name('tags.destroy');
 });
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
-
-Route::prefix('/admin')->name('admin.')->middleware('auth')->group(function () {
-    //Rotta admin home
-    Route::get('/', AdminHomeController::class)->name('home');
-
-    //Rotte admin post
-    Route::get('/words', [WordController::class, 'index'])->name('words.index');
-    Route::get('/words/create', [WordController::class, 'create'])->name('words.create');
-    Route::get('/words/{word}', [WordController::class, 'show'])->name('words.show');
-    Route::post('/words', [WordController::class, 'store'])->name('words.store');
-    Route::get('/words/{word}/edit', [WordController::class, 'edit'])->name('words.edit');
-    Route::put('/words/{word}', [WordController::class, 'update'])->name('words.update');
-    Route::delete('/words/{word}', [WordController::class, 'destroy'])->name('words.destroy');
-});
-
-Route::prefix('/admin')->name('admin.')->middleware('auth')->group(function () {
-
-    //Rotte tags
-    Route::get('/tags', [TagController::class, 'index'])->name('tags.index');
-    Route::get('/tags/{tag}/edit', [TagController::class, 'edit'])->name('tags.edit');
-    Route::put('/tags/{tag}', [TagController::class, 'update'])->name('tags.update');
-    Route::delete('/tags/{tag}', [TagController::class, 'destroy'])->name('tags.destroy');
 });
 
 require __DIR__ . '/auth.php';

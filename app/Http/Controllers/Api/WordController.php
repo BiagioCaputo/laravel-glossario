@@ -13,7 +13,7 @@ class WordController extends Controller
      */
     public function index()
     {
-        $words = Word::select('id', 'title', 'slug', 'definition')->with('tags', 'links')->get();
+        $words = Word::select('id', 'title', 'slug', 'definition')->with('tags', 'links')->paginate(5);
 
         
         return response()->json($words);
@@ -30,10 +30,10 @@ class WordController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $word)
+    public function show(string $slug)
     {
 
-        $word = Word::select('id', 'title', 'slug', 'definition')->with('tags', 'links')->find($word);
+        $word = Word::select('id', 'title', 'slug', 'definition')->with('tags', 'links')->whereSlug($slug)->first();
 
         if(!$word) return response(null, 404);
 
