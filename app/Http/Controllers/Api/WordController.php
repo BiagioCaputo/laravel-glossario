@@ -30,10 +30,10 @@ class WordController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $word)
+    public function show(string $slug)
     {
 
-        $word = Word::select('id', 'title', 'slug', 'definition')->with('tags', 'links')->find($word);
+        $word = Word::select('id', 'title', 'slug', 'definition')->with('tags', 'links')->whereSlug($slug)->first();
 
         if(!$word) return response(null, 404);
 
