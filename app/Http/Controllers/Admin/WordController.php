@@ -33,7 +33,9 @@ class WordController extends Controller
 
         $tags = Tag::select('label', 'id')->get();
 
-        return view('admin.words.create', compact('word', 'tags'));
+        $links = []; // Passa un array vuoto per i link
+
+        return view('admin.words.create', compact('word', 'tags', 'links'));
     }
 
     /**
@@ -64,16 +66,16 @@ class WordController extends Controller
         $word->slug = Str::slug($word->title);
         $word->save();
 
-        // Salvataggio dei link associati alla parola, nel caso non trovasse nulla in input, invierà un array vuoto invece di generare un errore
-        $linksData = $request->input('links', []);
-
-        foreach ($linksData as $link) {
-            if (!empty($link['label']) && !empty($link['url'])) {
-                $newLink = new Link();
-                $newLink->word_id = $word->id;
-                $newLink->label = $link['label'];
-                $newLink->url = $link['url'];
-                $newLink->save();
+        // Aggiungi nuovi link
+        if (!empty($data['new_links'])) {
+            foreach ($data['new_links'] as $newLinkData) {
+                if (!empty($newLinkData['label']) && !empty($newLinkData['url'])) {
+                    $newLink = new Link();
+                    $newLink->word_id = $word->id;
+                    $newLink->label = $newLinkData['label'];
+                    $newLink->url = $newLinkData['url'];
+                    $newLink->save();
+                }
             }
         }
 
@@ -114,6 +116,8 @@ class WordController extends Controller
      */
     public function update(Request $request, Word $word)
     {
+        $data = $request->all();
+
         $request->validate(
             [
                 'title' => ['required', 'string', Rule::unique('words')->ignore($word->id)],
@@ -121,6 +125,8 @@ class WordController extends Controller
                 'tags' => 'nullable|exists:tags,id',
                 'links.*.label' => 'nullable|string',
                 'links.*.url' => 'nullable|url',
+                'new_links.*.label' => 'nullable|string',
+                'new_links.*.url' => 'nullable|url',
             ],
             [
                 'title.required' => 'Nessuna parola inserita',
@@ -128,34 +134,47 @@ class WordController extends Controller
                 'tags.exists' => 'Tag scelti non esistenti o non validi',
                 'links.*.label.unique' => 'Uno dei link esiste già',
                 'links.*.url.unique' => 'Uno degli url esiste già',
+                'new_links.*.label.unique' => 'Uno dei link esiste già',
+                'new_links.*.url.unique' => 'Uno degli url esiste già',
             ]
         );
 
-        $data = $request->all();
+        $word->fill($data);
+        $word->slug = Str::slug($data['title']);
+        $word->save();
 
-        $data['slug'] = Str::slug($data['title']);
-
-        $word->update($data);
-
-        // Elimina tutti i link associati alla parola
+        // Elimina tutti i link esistenti
         $word->links()->delete();
 
-        //Salvo tutti i dati dal form nei link
-        foreach ($request->input('links', []) as $linkData) {
-            if (!empty($linkData['label']) && !empty($linkData['url'])) {
-                $link = new Link();
-                $link->word_id = $word->id;
-                $link->label = $linkData['label'];
-                $link->url = $linkData['url'];
-                $link->save();
+        // Crea i nuovi link forniti nel modulo
+        if (isset($data['links'])) {
+            foreach ($data['links'] as $linkData) {
+                if (!empty($linkData['label']) && !empty($linkData['url'])) {
+                    $link = new Link();
+                    $link->word_id = $word->id;
+                    $link->fill($linkData);
+                    $link->save();
+                }
             }
         }
 
-        //se ho inviato uno o dei valori sincronizzo
-        if (Arr::exists($data, 'tags')) $word->tags()->sync($data['tags']);
+        // Crea i nuovi link forniti nel modulo
+        if (isset($data['new_links'])) {
+            foreach ($data['new_links'] as $newLinkData) {
+                if (!empty($newLinkData['label']) && !empty($newLinkData['url'])) {
+                    $newLink = new Link();
+                    $newLink->word_id = $word->id;
+                    $newLink->fill($newLinkData);
+                    $newLink->save();
+                }
+            }
+        }
+
+        //se ho inviato uno o dei valori sincronizzo 
+        if (isset($data['tags'])) $word->tags()->sync($data['tags']);
 
         //Se non ho inviato valori ma la word ne aveva in precedenza, vuol dire che devo eliminare valore perchè li ho tolti tutti
-        elseif (!Arr::exists($data, 'tags') && $word->has('tags')) $word->tags()->detach();
+        elseif (!isset($data['tags']) && $word->has('tags')) $word->tags()->detach();
 
         return to_route('admin.words.show', $word->id)->with('type', 'success')->with('message', 'Parola modificata con successo');
     }
