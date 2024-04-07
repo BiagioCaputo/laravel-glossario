@@ -75,10 +75,9 @@ class WordController extends Controller
                 $newLink->save();
             }
         }
-        
 
-        if(Arr::exists($data, 'tags')) 
-        {
+
+        if (Arr::exists($data, 'tags')) {
             $word->tags()->attach($data['tags']);
         }
 
@@ -151,7 +150,7 @@ class WordController extends Controller
             }
         }
 
-        //se ho inviato uno o dei valori sincronizzo 
+        //se ho inviato uno o dei valori sincronizzo
         if (Arr::exists($data, 'tags')) $word->tags()->sync($data['tags']);
 
         //Se non ho inviato valori ma la word ne aveva in precedenza, vuol dire che devo eliminare valore perchè li ho tolti tutti
@@ -167,5 +166,12 @@ class WordController extends Controller
     {
         $word->delete();
         return to_route('admin.words.index')->with('type', 'danger')->with('message', 'Parola eliminata con successo');
+    }
+
+    //soft delete
+    public function trash()
+    {
+        $words = Word::onlyTrashed();
+        return view('teams.trash', compact('words'));
     }
 }

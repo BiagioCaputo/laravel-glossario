@@ -38,6 +38,8 @@ Route::prefix('/admin')->name('admin.')->middleware('auth')->group(function () {
     Route::put('/words/{word}', [WordController::class, 'update'])->name('words.update');
     Route::delete('/words/{word}', [WordController::class, 'destroy'])->name('words.destroy');
 
+    Route::get('/words/trash', [WordController::class, 'trash'])->name('words.trash');
+
     // Rotta admin link
     Route::get('/links', [LinkController::class, 'index'])->name('links.index');
     Route::post('/links', [LinkController::class, 'store'])->name('links.store');
