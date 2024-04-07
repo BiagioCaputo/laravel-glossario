@@ -17,7 +17,12 @@
                     <th scope="col">Tags</th>
                     <th scope="col">
                         <div class="d-flex gap-2 justify-content-end">
-                            <a href="{{ route('admin.words.create') }}" class="btn btn-success btn-sm"><i
+                            <a href="{{ route('admin.words.trash') }}"
+                                class="btn btn-danger btn-sm d-flex align-items-center"><i
+                                    class="fas fa-trash me-1"></i>Cestino</a>
+
+                            <a href="{{ route('admin.words.create') }}"
+                                class="btn btn-success btn-sm d-flex align-items-center"><i
                                     class="fas fa-plus me-1"></i>Nuova</a>
                         </div>
                     </th>
@@ -64,7 +69,7 @@
                         </td>
                     </tr>
                 @empty
-                    <td colspan="5">Non sono presenti parole</td>
+                    <td colspan="7">Non sono presenti parole</td>
                 @endforelse
             </tbody>
         </table>

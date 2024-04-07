@@ -171,7 +171,7 @@ class WordController extends Controller
     //soft delete
     public function trash()
     {
-        $words = Word::onlyTrashed();
-        return view('teams.trash', compact('words'));
+        $words = Word::onlyTrashed()->get();
+        return view('admin.words.trash', compact('words'));
     }
 }

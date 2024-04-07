@@ -32,13 +32,15 @@ Route::prefix('/admin')->name('admin.')->middleware('auth')->group(function () {
     //Rotte admin post
     Route::get('/words', [WordController::class, 'index'])->name('words.index');
     Route::get('/words/create', [WordController::class, 'create'])->name('words.create');
-    Route::get('/words/{word}', [WordController::class, 'show'])->name('words.show');
-    Route::post('/words', [WordController::class, 'store'])->name('words.store');
-    Route::get('/words/{word}/edit', [WordController::class, 'edit'])->name('words.edit');
-    Route::put('/words/{word}', [WordController::class, 'update'])->name('words.update');
-    Route::delete('/words/{word}', [WordController::class, 'destroy'])->name('words.destroy');
 
     Route::get('/words/trash', [WordController::class, 'trash'])->name('words.trash');
+
+    Route::get('/words/{word}', [WordController::class, 'show'])->name('words.show')->withTrashed();
+    Route::post('/words', [WordController::class, 'store'])->name('words.store');
+    Route::get('/words/{word}/edit', [WordController::class, 'edit'])->name('words.edit')->withTrashed();
+    Route::put('/words/{word}', [WordController::class, 'update'])->name('words.update')->withTrashed();
+    Route::delete('/words/{word}', [WordController::class, 'destroy'])->name('words.destroy');
+
 
     // Rotta admin link
     Route::get('/links', [LinkController::class, 'index'])->name('links.index');
@@ -52,20 +54,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
-
-Route::prefix('/admin')->name('admin.')->middleware('auth')->group(function () {
-    //Rotta admin home
-    Route::get('/', AdminHomeController::class)->name('home');
-
-    //Rotte admin post
-    Route::get('/words', [WordController::class, 'index'])->name('words.index');
-    Route::get('/words/create', [WordController::class, 'create'])->name('words.create');
-    Route::get('/words/{word}', [WordController::class, 'show'])->name('words.show');
-    Route::post('/words', [WordController::class, 'store'])->name('words.store');
-    Route::get('/words/{word}/edit', [WordController::class, 'edit'])->name('words.edit');
-    Route::put('/words/{word}', [WordController::class, 'update'])->name('words.update');
-    Route::delete('/words/{word}', [WordController::class, 'destroy'])->name('words.destroy');
 });
 
 Route::prefix('/admin')->name('admin.')->middleware('auth')->group(function () {
