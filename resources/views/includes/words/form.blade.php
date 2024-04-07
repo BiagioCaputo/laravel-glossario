@@ -73,7 +73,7 @@
         <div class="col-12">
             <div class="collapse multi-collapse" id="link-1">
                 <div class="row">
-                    <div class="col-6">
+                    <div class="col-6 mt-4">
                         <label for="label-1" class="form-label">Label</label>
                         <input type="text" class="form-control @error('links.0.label') is-invalid @elseif (old('links.0.label', '')) is-valid @enderror" id="label-1" name="links[0][label]" placeholder="Inserisci un nome del link..." value="{{ old('links.0.label', isset($links[0]) ? $links[0]->label : '') }}">
                         @error('links.0.label')
