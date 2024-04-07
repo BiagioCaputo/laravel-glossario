@@ -53,8 +53,8 @@
                                 </a>
                                 <a href="{{ route('admin.words.edit', $word) }}" class="btn btn-warning btn-sm"><i
                                         class="fas fa-pencil"></i></a>
-                                <form action="{{ route('admin.words.destroy', $word) }}" method="POST" class="delete-form"
-                                    id="delete-form">
+                                <form action="{{ route('admin.words.destroy', $word) }}" method="POST"
+                                    class="delete-form">
                                     @csrf
                                     @method('DELETE')
                                     <button type='submit' class="btn btn-danger btn-sm"><i
@@ -78,15 +78,15 @@
 @endsection
 @section('scripts')
     <script>
-        const deleteForm = document.getElementById('delete-form')
+        const deleteForms = document.querySelectorAll('.delete-form')
 
-        deleteForm.addEventListener('submit', e => {
-            //annullo l'invio del form
-            e.preventDefault();
+        deleteForms.forEach(form => {
+            form.addEventListener('submit', e => {
+                e.preventDefault();
 
-            //conferma di elimina
-            const confirmation = confirm('Sicuro di voler eliminare questo termine?');
-            if (confirmation) deleteForm.submit();
+                const confirmation = confirm('Sicuro di voler eliminare questo termine?');
+                if (confirmation) form.submit();
+            })
 
         })
     </script>
