@@ -8,6 +8,7 @@ use App\Models\Link;
 use App\Models\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Support\Arr;
 
@@ -173,5 +174,18 @@ class WordController extends Controller
     {
         $words = Word::onlyTrashed()->get();
         return view('admin.words.trash', compact('words'));
+    }
+
+    public function restore(string $id)
+    {
+        $word = Word::onlyTrashed()->findOrFail($id);
+        $word->restore();
+        return to_route('admin.words.index')->with('type', 'success')->with('message', 'Progetto ripristinato con successo');
+    }
+    public function drop(string $id)
+    {
+        $word = Word::onlyTrashed()->findOrFail($id);
+        $word->forceDelete();
+        return to_route('admin.words.trash')->with('type', 'danger')->with('message', 'Progetto eliminato definitivamente');
     }
 }

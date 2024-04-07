@@ -53,8 +53,13 @@
                                 </a>
                                 <a href="{{ route('admin.words.edit', $word) }}" class="btn btn-warning btn-sm"><i
                                         class="fas fa-pencil"></i></a>
-                                <form action="{{ route('admin.words.destroy', $word) }}" method="POST"
-                                    class="delete-form">
+                                <form action="{{ route('admin.words.restore', $word->id) }}" method="POST"
+                                    class="restore-form">
+                                    @csrf
+                                    @method('PATCH')
+                                    <button class="btn btn-sm btn-success"><i class="fas fa-arrows-rotate"></i></button>
+                                </form>
+                                <form action="{{ route('admin.words.drop', $word) }}" method="POST" class="delete-form">
                                     @csrf
                                     @method('DELETE')
                                     <button type='submit' class="btn btn-danger btn-sm"><i

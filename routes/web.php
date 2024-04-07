@@ -29,12 +29,15 @@ Route::prefix('/admin')->name('admin.')->middleware('auth')->group(function () {
     //Rotta admin home
     Route::get('/', AdminHomeController::class)->name('home');
 
+    //trash
+    Route::get('/words/trash', [WordController::class, 'trash'])->name('words.trash');
+    Route::patch('/words/{word}/restore', [WordController::class, 'restore'])->name('words.restore');
+    Route::delete('/words/{word}/drop', [WordController::class, 'drop'])->name('words.drop');
+
+
     //Rotte admin post
     Route::get('/words', [WordController::class, 'index'])->name('words.index');
     Route::get('/words/create', [WordController::class, 'create'])->name('words.create');
-
-    Route::get('/words/trash', [WordController::class, 'trash'])->name('words.trash');
-
     Route::get('/words/{word}', [WordController::class, 'show'])->name('words.show')->withTrashed();
     Route::post('/words', [WordController::class, 'store'])->name('words.store');
     Route::get('/words/{word}/edit', [WordController::class, 'edit'])->name('words.edit')->withTrashed();
