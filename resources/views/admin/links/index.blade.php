@@ -12,7 +12,13 @@
             <th scope="col">#</th>
             <th scope="col">Label</th>
             <th scope="col">Url</th>
-            <th scope="col"></th>
+            <th scope="col">
+                <div class="d-flex gap-2 justify-content-end">
+                    <a href="{{ route('admin.words.trash') }}"
+                        class="btn btn-danger btn-sm d-flex align-items-center">
+                        <i class="fas fa-trash me-1"></i>Cestino</a>
+                </div>
+            </th>
           </tr>
         </thead>
         <tbody>
