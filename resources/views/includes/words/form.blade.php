@@ -69,30 +69,38 @@
             </div>
         </div>
 
-        {{-- Campo per modificare link esistenti --}}
+        {{-- Campo per vedere/modificare link esistenti --}}
         @if (!empty($links))
-        @foreach ($links as $index => $link)
-            <div class="col-12 row my-2">
-                <div class="col-6">
-                    <div class="form-group">
-                        <label for="links[{{ $index }}][label]" class="form-label">Label</label>
-                        <input type="text" name="links[{{ $index }}][label]" value="{{ old("links.$index.label", $link['label']) }}" class="form-control @error("links.$index.label") is-invalid @enderror">
-                        @error("links.$index.label")
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
+        <div x-data="{ showLinks: false }">
+            <!-- Mostra/nascondi i link già esistenti -->
+            <a href="#" @click="showLinks = !showLinks" class="btn btn-primary my-2">Link presenti</a>
+
+            <!-- Mostra i link solo se showLinks è true -->
+            <div x-show="showLinks">
+                @foreach ($links as $index => $link)
+                    <div class="col-12 row my-2">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="links[{{ $index }}][label]" class="form-label">Label</label>
+                                <input type="text" name="links[{{ $index }}][label]" value="{{ old("links.$index.label", $link['label']) }}" class="form-control @error("links.$index.label") is-invalid @enderror">
+                                @error("links.$index.label")
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="links[{{ $index }}][url]" class="form-label">URL</label>
+                                <input type="text" name="links[{{ $index }}][url]" value="{{ old("links.$index.url", $link['url']) }}" class="form-control @error("links.$index.url") is-invalid @enderror">
+                                @error("links.$index.url")
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div class="col-6">
-                    <div class="form-group">
-                        <label for="links[{{ $index }}][url]" class="form-label">URL</label>
-                        <input type="text" name="links[{{ $index }}][url]" value="{{ old("links.$index.url", $link['url']) }}" class="form-control @error("links.$index.url") is-invalid @enderror">
-                        @error("links.$index.url")
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                    </div>
-                </div>
+                @endforeach
             </div>
-        @endforeach
+        </div>
         @endif
      
         <!-- Campo per aggiungere un nuovo link -->
@@ -103,7 +111,7 @@
                     <div class="col-6">
                         <div class="form-group">
                             <label x-bind:for="'new_links[' + i + '][label]'">Nuovo Label</label>
-                            <input type="text" x-bind:name="'new_links[' + i + '][label]'" class="form-control">
+                            <input type="text" x-bind:name="'new_links[' + i + '][label]'" class="form-control"> <!-- Unisce le 2 parti di stringa fissa iniziale e finale con la variabile i dinamica-->
                         </div>
                     </div>
                     <div class="col-6">

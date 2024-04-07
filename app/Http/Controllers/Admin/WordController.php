@@ -33,7 +33,7 @@ class WordController extends Controller
 
         $tags = Tag::select('label', 'id')->get();
 
-        $links = []; // Passa un array vuoto per i link
+        $links = []; // Passa un array vuoto per non mandare in errore il form nel create e sfruttandolo per un if
 
         return view('admin.words.create', compact('word', 'tags', 'links'));
     }
@@ -66,7 +66,7 @@ class WordController extends Controller
         $word->slug = Str::slug($word->title);
         $word->save();
 
-        // Aggiungi nuovi link
+        // Aggiungi nuovi link 
         if (!empty($data['new_links'])) {
             foreach ($data['new_links'] as $newLinkData) {
                 if (!empty($newLinkData['label']) && !empty($newLinkData['url'])) {
@@ -146,7 +146,7 @@ class WordController extends Controller
         // Elimina tutti i link esistenti
         $word->links()->delete();
 
-        // Crea i nuovi link forniti nel modulo
+        // Prende i dati dal modulo dei link già esistenti 
         if (isset($data['links'])) {
             foreach ($data['links'] as $linkData) {
                 if (!empty($linkData['label']) && !empty($linkData['url'])) {
@@ -158,7 +158,7 @@ class WordController extends Controller
             }
         }
 
-        // Crea i nuovi link forniti nel modulo
+        //Prende i dati dal modulo dei nuovi link utilizzato anche dallo store
         if (isset($data['new_links'])) {
             foreach ($data['new_links'] as $newLinkData) {
                 if (!empty($newLinkData['label']) && !empty($newLinkData['url'])) {
