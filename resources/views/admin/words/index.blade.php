@@ -2,8 +2,15 @@
 
 @section('content')
     <div class="container py-5">
-
-        <h1 class="text-center mb-3">Words</h1>
+        <div class="d-flex justify-content-between align-items-center">
+            <h1 class="text-center mb-3">Words</h1>
+            <form action="{{ route('admin.words.index') }}" method="GET">
+                <div class="input-group mb-3">
+                    <input type="search" class="form-control" placeholder="Cerca" name="search">
+                    <button class="btn btn-outline-primary"><i class="fa fa-search"></i></button>
+                </div>
+            </form>
+        </div>
 
         </table>
         <table class="table table-dark table-striped">
