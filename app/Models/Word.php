@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Builder;
 
 class Word extends Model
 {
@@ -28,5 +29,14 @@ class Word extends Model
     public function abstract()
     {
         return substr($this->definition, 0, 200);
+    }
+
+    //Query scope per la Tecnologia
+    public function scopeTagFilter(Builder $query, $tag_id)
+    {
+        if(!$tag_id) return $query;
+        return $query->whereHas('tags', function ($query) use($tag_id) {
+            $query->where('tags.id', $tag_id);
+        });
     }
 }
