@@ -4,13 +4,27 @@
     <div class="container py-5">
         <div class="d-flex justify-content-between align-items-center">
             <h1 class="text-center mb-3">Words</h1>
-            <form action="{{ route('admin.words.index') }}" method="GET">
-                <div class="input-group mb-3">
-                    <input type="search" class="form-control" placeholder="Cerca" name="search" value="{{ $search }}"
-                        autofocus>
-                    <button class="btn btn-outline-primary"><i class="fa fa-search"></i></button>
-                </div>
-            </form>
+            <div>
+                <form action="{{route('admin.words.index')}}" method="GET">
+                    <div class="d-flex align-items-center gap-2">
+                        {{-- Filtro Tag --}}
+                        <select class="form-select" name="tag_filter">
+                            <option value="">Tutti i tag</option>
+                            @foreach($tags as $tag)
+                            <option value={{ $tag->id }} @if($tag_filter == $tag->id) selected @endif>{{ $tag->label }}</option>
+                            @endforeach
+                        </select>
+
+                        {{-- Search --}}
+                        <input type="search" class="form-control" placeholder="Cerca Word" name="search" value="{{ $search }}" autofocus>
+
+                        {{-- Button form --}}
+                        <button class="btn btn-outline-secondary">Filtra</button>
+
+                    </div>
+
+                </form>
+            </div>
         </div>
 
         </table>
