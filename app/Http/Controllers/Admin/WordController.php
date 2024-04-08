@@ -24,7 +24,7 @@ class WordController extends Controller
         //$words = Word::where('title', "%$search%")->get();
 
         $links = Link::all();
-        $words = Word::orderByDesc('updated_at')->orderByDesc('created_at')->where('title', 'LIKE', "%$search%")->paginate(5);
+        $words = Word::orderByDesc('updated_at')->orderByDesc('created_at')->where('title', 'LIKE', "%$search%")->paginate(20);
         return view('admin.words.index', compact('words', 'search'));
     }
 

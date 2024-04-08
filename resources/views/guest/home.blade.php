@@ -9,7 +9,7 @@
         <div class="row my-5">
             <h1 class="text-center">Glossario</h1>
             @forelse ($words as $word)
-                <div class="col-4 g-4">
+                <div class="col-3 g-4">
                     <div class="card">
                         <div class="card-header text-center">
                             {{$word->title}}

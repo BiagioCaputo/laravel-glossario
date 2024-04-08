@@ -11,7 +11,7 @@ class HomeController extends Controller
     public function index()
     {
 
-        $words = Word::orderByDesc('created_at')->paginate(6);
+        $words = Word::orderByDesc('created_at')->paginate(16);
 
         return view('guest.home', compact('words'));
     }
