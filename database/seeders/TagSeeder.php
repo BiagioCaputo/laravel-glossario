@@ -43,7 +43,7 @@ class TagSeeder extends Seeder
                 'label' => 'PHP', 'color' => '#787CB4'
             ],
             [
-                'label' => 'Programmazione', 'color' => '#B0C4DE'
+                'label' => 'Program', 'color' => '#B0C4DE'
             ],
             [
                 'label' => 'OOP', 'color' => '#FA8072'

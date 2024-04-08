@@ -13,9 +13,11 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
 
-         \App\Models\Word::factory(10)->create();
+        // \App\Models\Word::factory(10)->create();
 
-         \App\Models\Link::factory(20)->create();
+        $this->call(WordSeeder::class);
+
+        \App\Models\Link::factory(20)->create();
 
         \App\Models\User::factory()->create([
              'name' => 'Team5',
