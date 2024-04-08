@@ -9,9 +9,10 @@ use Illuminate\Support\Facades\Mail;
 
 class ContactController extends Controller
 {
-    public function message() 
+    public function message(Request $request) 
     {
-
+        $data = $request->all();
+        return response()->json($data);
         $email = new ContactMessageMail();
         Mail::to(env('MAIL_TO_ADDRESS'))->send($email);
         return response(null, 204);
