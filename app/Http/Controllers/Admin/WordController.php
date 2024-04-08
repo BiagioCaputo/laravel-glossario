@@ -22,10 +22,20 @@ class WordController extends Controller
 
         $search = $request->query('search');
         //$words = Word::where('title', "%$search%")->get();
+        $tag_filter = $request->query('tag_filter');
 
         $links = Link::all();
-        $words = Word::orderByDesc('updated_at')->orderByDesc('created_at')->where('title', 'LIKE', "%$search%")->paginate(20);
-        return view('admin.words.index', compact('words', 'search'));
+
+        $words = Word::tagFilter($tag_filter)
+            ->where('title', 'LIKE', "%$search%")
+            ->orderByDesc('updated_at')
+            ->orderByDesc('created_at')
+            ->paginate(20)
+            ->withQueryString();
+
+        $tags = Tag::select('id','label')->get();
+
+        return view('admin.words.index', compact('words', 'search', 'tag_filter', 'tags'));
     }
 
     /**
