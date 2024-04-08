@@ -13,9 +13,9 @@ class WordController extends Controller
      */
     public function index()
     {
-        $words = Word::select('id', 'title', 'slug', 'definition')->with('tags', 'links')->paginate(10);
+        $words = Word::select('id', 'title', 'slug', 'definition')->with('tags', 'links')->paginate(32);
 
-        
+
         return response()->json($words);
     }
 
@@ -33,9 +33,9 @@ class WordController extends Controller
     public function show(string $slug)
     {
 
-        $word = Word::select('id', 'title', 'slug', 'definition')->with('tags', 'links')->whereSlug($slug)->first();
+        $word = Word::select('*')->with('tags', 'links')->whereSlug($slug)->first();
 
-        if(!$word) return response(null, 404);
+        if (!$word) return response(null, 404);
 
         return response()->json($word);
     }
@@ -45,7 +45,6 @@ class WordController extends Controller
      */
     public function update(Request $request, Word $word)
     {
-        
     }
 
     /**
@@ -56,4 +55,3 @@ class WordController extends Controller
         //
     }
 }
-

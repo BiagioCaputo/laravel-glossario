@@ -27,6 +27,6 @@ class Word extends Model
 
     public function abstract()
     {
-        return substr($this->definition, 0, 200);
+        return substr($this->definition, 0, 150);
     }
 }
