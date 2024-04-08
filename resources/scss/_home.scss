@@ -6,19 +6,10 @@
     .card-body {
         overflow: auto;
         padding-right: 26px;
-
-        &:hover.card-body::-webkit-scrollbar {
-            display: block;
-        }
-
-        &:hover.card-body {
-            padding-right: 16px;
-        }
     }
 
     .card-body::-webkit-scrollbar {
         width: 10px;
-        display: none;
     }
 
     .card-body::-webkit-scrollbar-track {

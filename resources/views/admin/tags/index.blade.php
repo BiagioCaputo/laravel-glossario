@@ -2,6 +2,8 @@
 
 @section('content')
 <div class="container py-5">
+
+    <h1 class="text-center mb-3">Tags</h1>
         
     </table>
     <table class="table table-dark table-striped">
@@ -12,7 +14,13 @@
             <th scope="col">Slug</th>
             <th scope="col">Color Code</th>
             <th scope="col">Color</th>
-            <th></th>
+            <th>
+                <div class="d-flex gap-2 justify-content-end">
+                    <a href="{{ route('admin.tags.trash') }}"
+                        class="btn btn-danger btn-sm d-flex align-items-center">
+                        <i class="fas fa-trash me-1"></i>Cestino</a>
+                </div>
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -58,4 +66,19 @@
 </div>
 
 
+@endsection
+@section('scripts')
+    <script>
+        const deleteForms = document.querySelectorAll('.delete-form')
+
+        deleteForms.forEach(form => {
+            form.addEventListener('submit', e => {
+                e.preventDefault();
+
+                const confirmation = confirm('Sicuro di voler eliminare questo tag?');
+                if (confirmation) form.submit();
+            })
+
+        })
+    </script>
 @endsection
