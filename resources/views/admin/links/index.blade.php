@@ -50,3 +50,18 @@
 </div>
 
 @endsection
+@section('scripts')
+    <script>
+        const deleteForms = document.querySelectorAll('.delete-form')
+
+        deleteForms.forEach(form => {
+            form.addEventListener('submit', e => {
+                e.preventDefault();
+
+                const confirmation = confirm('Sicuro di voler eliminare questo link?');
+                if (confirmation) form.submit();
+            })
+
+        })
+    </script>
+@endsection
