@@ -44,16 +44,11 @@ Route::prefix('/admin')->name('admin.')->middleware('auth')->group(function () {
     Route::put('/words/{word}', [WordController::class, 'update'])->name('words.update')->withTrashed();
     Route::delete('/words/{word}', [WordController::class, 'destroy'])->name('words.destroy');
 
-    //Rotte admin links trash
-    Route::get('/links/trash', [LinkController::class, 'trash'])->name('links.trash');
-    Route::patch('/links/{link}/restore', [LinkController::class, 'restore'])->name('links.restore');
-    Route::delete('/links/{link}/drop', [LinkController::class, 'drop'])->name('links.drop');
-
     //Rotte admin links
     Route::get('/links', [LinkController::class, 'index'])->name('links.index');
     Route::post('/links', [LinkController::class, 'store'])->name('links.store');
-    Route::get('/links/{link}/edit', [LinkController::class, 'edit'])->name('links.edit')->withTrashed();
-    Route::put('/links/{link}', [LinkController::class, 'update'])->name('links.update')->withTrashed();
+    Route::get('/links/{link}/edit', [LinkController::class, 'edit'])->name('links.edit');
+    Route::put('/links/{link}', [LinkController::class, 'update'])->name('links.update');
     Route::delete('/links/{link}', [LinkController::class, 'destroy'])->name('links.destroy');
 
 
