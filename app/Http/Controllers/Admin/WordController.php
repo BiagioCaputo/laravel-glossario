@@ -17,11 +17,15 @@ class WordController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
+
+        $search = $request->query('search');
+        //$words = Word::where('title', "%$search%")->get();
+
         $links = Link::all();
-        $words = Word::orderByDesc('updated_at')->orderByDesc('created_at')->paginate(5);
-        return view('admin.words.index', compact('words'));
+        $words = Word::orderByDesc('updated_at')->orderByDesc('created_at')->where('title', 'LIKE', "%$search%")->paginate(5);
+        return view('admin.words.index', compact('words', 'search'));
     }
 
     /**
@@ -66,7 +70,7 @@ class WordController extends Controller
         $word->slug = Str::slug($word->title);
         $word->save();
 
-        // Aggiungi nuovi link 
+        // Aggiungi nuovi link
         if (!empty($data['new_links'])) {
             foreach ($data['new_links'] as $newLinkData) {
                 if (!empty($newLinkData['label']) && !empty($newLinkData['url'])) {
@@ -146,7 +150,7 @@ class WordController extends Controller
         // Elimina tutti i link esistenti
         $word->links()->delete();
 
-        // Prende i dati dal modulo dei link già esistenti 
+        // Prende i dati dal modulo dei link già esistenti
         if (isset($data['links'])) {
             foreach ($data['links'] as $linkData) {
                 if (!empty($linkData['label']) && !empty($linkData['url'])) {
@@ -170,7 +174,7 @@ class WordController extends Controller
             }
         }
 
-        //se ho inviato uno o dei valori sincronizzo 
+        //se ho inviato uno o dei valori sincronizzo
         if (isset($data['tags'])) $word->tags()->sync($data['tags']);
 
         //Se non ho inviato valori ma la word ne aveva in precedenza, vuol dire che devo eliminare valore perchè li ho tolti tutti
