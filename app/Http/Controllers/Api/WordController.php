@@ -13,7 +13,7 @@ class WordController extends Controller
      */
     public function index()
     {
-        $words = Word::select('id', 'title', 'slug', 'definition')->with('tags', 'links')->paginate(5);
+        $words = Word::select('id', 'title', 'slug', 'definition')->with('tags', 'links')->paginate(10);
 
         
         return response()->json($words);
