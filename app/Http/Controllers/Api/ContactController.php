@@ -12,8 +12,13 @@ class ContactController extends Controller
     public function message(Request $request) 
     {
         $data = $request->all();
-        return response()->json($data);
-        $email = new ContactMessageMail();
+        
+        $email = new ContactMessageMail(
+            subject: $data['subject'],
+            sender: $data['sender'],
+            message: $data['message'],
+
+        );
         Mail::to(env('MAIL_TO_ADDRESS'))->send($email);
         return response(null, 204);
     }
