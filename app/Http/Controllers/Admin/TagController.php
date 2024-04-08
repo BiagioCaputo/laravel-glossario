@@ -81,7 +81,7 @@ class TagController extends Controller
     {
         $request->validate(
 
-            [ 
+            [
                 'label' => ['required', 'string', Rule::unique('tags')->ignore($tag->id)],
                 'color' => 'string|nullable',
             ],
@@ -107,5 +107,25 @@ class TagController extends Controller
     {
         $tag->delete();
         return to_route('admin.tags.index')->with('type', 'danger')->with('message', 'Tag eliminato con successo');
+    }
+
+    //soft delete
+    public function trash()
+    {
+        $tags = Tag::onlyTrashed()->get();
+        return view('admin.tags.trash', compact('tags'));
+    }
+
+    public function restore(string $id)
+    {
+        $tag = Tag::onlyTrashed()->findOrFail($id);
+        $tag->restore();
+        return to_route('admin.tags.index')->with('type', 'success')->with('message', 'Tag ripristinato con successo');
+    }
+    public function drop(string $id)
+    {
+        $tag = Tag::onlyTrashed()->findOrFail($id);
+        $tag->forceDelete();
+        return to_route('admin.tags.trash')->with('type', 'danger')->with('message', 'Tag eliminato definitivamente');
     }
 }

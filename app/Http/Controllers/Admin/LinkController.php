@@ -64,4 +64,24 @@ class LinkController extends Controller
 
         return to_route('admin.links.index')->with('type', 'danger')->with('message', 'Link eliminato con successo');
     }
+
+    //soft delete
+    public function trash()
+    {
+        $links = Link::onlyTrashed()->get();
+        return view('admin.links.trash', compact('links'));
+    }
+
+    public function restore(string $id)
+    {
+        $link = Link::onlyTrashed()->findOrFail($id);
+        $link->restore();
+        return to_route('admin.links.index')->with('type', 'success')->with('message', 'Link ripristinato con successo');
+    }
+    public function drop(string $id)
+    {
+        $link = Link::onlyTrashed()->findOrFail($id);
+        $link->forceDelete();
+        return to_route('admin.links.trash')->with('type', 'danger')->with('message', 'Link eliminato definitivamente');
+    }
 }
